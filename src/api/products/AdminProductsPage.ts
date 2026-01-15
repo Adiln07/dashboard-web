@@ -26,4 +26,21 @@ export const productApi = {
       throw new Error("Failed Post API Product ");
     }
   },
+
+  editProduct: async (id: string, body: any) => {
+    try {
+      const response = await AxiosConfig.patch(`/products/${id}`, body);
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed Update API Product");
+    }
+  },
+  deleteProduct: async (id: string) => {
+    try {
+      const response = await AxiosConfig.delete(`/products/${id}`);
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed Delete API Product");
+    }
+  },
 };

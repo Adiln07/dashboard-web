@@ -4,7 +4,6 @@ import { useProductStore } from "@/store/productStore";
 const ModalAddProduct = () => {
   const isAddProducClosed = useProductStore((state) => state.isAddProducClosed);
   const addProduct = useProductStore((state) => state.addProduct);
-  const fetchAddProduct = useProductStore((state) => state.fetchAddProducts);
 
   const [addData, setAddData] = useState({
     category: "",
@@ -33,7 +32,6 @@ const ModalAddProduct = () => {
             onSubmit={(e) => {
               e.preventDefault();
               addProduct(addData);
-              isAddProducClosed();
             }}
           >
             <div className="flex flex-col ">

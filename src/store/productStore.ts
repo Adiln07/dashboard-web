@@ -23,6 +23,8 @@ type ProductStore = {
   fetchAddProducts: () => Promise<void>;
   fetchAddProductById: (id: string) => Promise<void>;
   addProduct: (body: Product) => Promise<void>;
+  editProduct: (body: Product, id: string) => Promise<void>;
+  deleteProduct: (id: string) => Promise<void>;
 
   setProductId: (id: string) => void;
   isEditOpen: () => void;
@@ -70,9 +72,31 @@ export const useProductStore = create<ProductStore>((set) => ({
 
       // SIMPAN ke zustand
       set({ products: updated?.data });
-      set({ isEditProduct: false });
+      set({ isAddProduct: false });
     } catch (error) {
       set({ error: "error to fetch Data By Id" });
+    }
+  },
+
+  editProduct: async (id, body) => {
+    try {
+      await productApi.editProduct(id, body);
+      const updated = await productApi.getAllProducts();
+      set({ products: updated?.data });
+      set({ isEditProduct: false });
+    } catch (error) {
+      set({ error: "error to edit Data" });
+    }
+  },
+
+  deleteProduct: async (id) => {
+    try {
+      await productApi.deleteProduct(id);
+      const updated = await productApi.getAllProducts();
+      set({ products: updated?.data });
+      set({ isDeleteProduct: false });
+    } catch (error) {
+      set({ error: "error to Delete Data" });
     }
   },
 

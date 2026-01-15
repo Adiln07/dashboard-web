@@ -24,9 +24,6 @@ const AdminProductsPage = () => {
   const isDeleteProduct = useProductStore((state) => state.isDeleteProduct);
   const isAddProduct = useProductStore((state) => state.isAddProduct);
 
-  console.log("edit parentki we: ", isEditProduct);
-  console.log("delete Parent jga: ", isDeleteProduct);
-
   return (
     <AppShell>
       <TableProduct />

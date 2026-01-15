@@ -34,6 +34,11 @@ const TableProduct = () => {
     isEditOpen();
   };
 
+  const openModaldelete = (id: string) => {
+    setProductId(id);
+    isDeleteOpen();
+  };
+
   return (
     <div className="w-[65em] m-auto mb-10 ">
       {loading ? (
@@ -90,7 +95,7 @@ const TableProduct = () => {
                         Edit
                       </button>
                       <button
-                        onClick={() => isDeleteOpen()}
+                        onClick={() => openModaldelete(item?.id)}
                         className="rounded-md ml-2 bg-red-600 px-3 py-1 text-xs font-medium text-white hover:bg-red-700"
                       >
                         Hapus

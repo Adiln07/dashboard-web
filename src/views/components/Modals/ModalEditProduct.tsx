@@ -6,6 +6,7 @@ const ModalEditProduct = () => {
   const productById = useProductStore((state) => state.productById);
   const isEditProduct = useProductStore((state) => state.isEditProduct);
   const isEditClosed = useProductStore((state) => state.isEditClosed);
+  const editProduct = useProductStore((state) => state.editProduct);
   const fetchAddProductById = useProductStore(
     (state) => state.fetchAddProductById
   );
@@ -34,6 +35,8 @@ const ModalEditProduct = () => {
     }
   }, [productById]);
 
+  console.log("product id: ", productId);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-300/75">
       <div className="max-h-[90vh] w-1/4 overflow-y-auto rounded-xl bg-white p-2 text-sm">
@@ -48,7 +51,13 @@ const ModalEditProduct = () => {
         </div>
 
         {/* Modal Content */}
-        <form className="flex flex-col p-6 w-full ">
+        <form
+          className="flex flex-col p-6 w-full "
+          onSubmit={(e) => {
+            e.preventDefault();
+            editProduct(productId, ediData);
+          }}
+        >
           <div className="flex flex-col ">
             <label htmlFor="" className="text-lg">
               Name
@@ -117,7 +126,10 @@ const ModalEditProduct = () => {
             />
           </div>
 
-          <button className=" bg-blue-600 hover:bg-blue-800 mt-3 h-8 rounded-lg text-white">
+          <button
+            className=" bg-blue-600 hover:bg-blue-800 mt-3 h-8 rounded-lg text-white"
+            type="submit"
+          >
             Submit
           </button>
         </form>
