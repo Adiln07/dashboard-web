@@ -26,10 +26,11 @@ const NavigationBar = () => {
 
             return (
               <Link
+                key={i}
                 href={nav.href}
-                className={`flex w-[15em] items-center justify-between px-4 py-2 ${
+                className={`flex w-[15em] items-center justify-between px-4 py-2  ${
                   isActive ? "bg-[#5932EA] text-white" : "bg-white"
-                }  text-black rounded-2xl`}
+                }  text-black rounded-2xl `}
               >
                 <h1 className="text-xl ">{nav.label}</h1>
                 <FontAwesomeIcon icon={faChevronRight} />

@@ -15,7 +15,7 @@ const ModalEditProduct = () => {
     category: "",
     image: "",
     name: "",
-    price: Number,
+    price: 0,
   });
 
   useEffect(() => {
@@ -34,8 +34,6 @@ const ModalEditProduct = () => {
       });
     }
   }, [productById]);
-
-  console.log("product id: ", productId);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-300/75">
@@ -120,7 +118,7 @@ const ModalEditProduct = () => {
               onChange={(e) =>
                 setEditData((prev) => ({
                   ...prev,
-                  price: Number(e.target.value),
+                  price: e.target.value,
                 }))
               }
             />

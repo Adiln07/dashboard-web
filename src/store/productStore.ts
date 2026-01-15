@@ -19,6 +19,7 @@ type ProductStore = {
   isAddProduct: boolean;
   isEditProduct: boolean;
   isDeleteProduct: boolean;
+  isFilter: boolean;
 
   fetchAddProducts: () => Promise<void>;
   fetchAddProductById: (id: string) => Promise<void>;
@@ -33,6 +34,8 @@ type ProductStore = {
   isDeleteClosed: () => void;
   isAddProductOpen: () => void;
   isAddProducClosed: () => void;
+  isFilterOpen: () => void;
+  isFilterClosed: () => void;
 };
 
 export const useProductStore = create<ProductStore>((set) => ({
@@ -44,6 +47,7 @@ export const useProductStore = create<ProductStore>((set) => ({
   isAddProduct: false,
   isEditProduct: false,
   isDeleteProduct: false,
+  isFilter: false,
 
   fetchAddProducts: async () => {
     try {
@@ -119,5 +123,11 @@ export const useProductStore = create<ProductStore>((set) => ({
   },
   isAddProducClosed: () => {
     set({ isAddProduct: false });
+  },
+  isFilterOpen: () => {
+    set({ isFilter: true });
+  },
+  isFilterClosed: () => {
+    set({ isFilter: false });
   },
 }));
