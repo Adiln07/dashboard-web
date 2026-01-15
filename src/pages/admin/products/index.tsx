@@ -1,28 +1,16 @@
 // import { productApi } from "@/api/products/AdminProductsPage";
 
 import AdminProductsPage from "@/views/admin/AdminProductsPage";
-import axios from "axios";
+import { productApi } from "@/api/products/AdminProductsPage";
 import { useEffect, useState } from "react";
+import { useProductStore } from "@/store/productStore";
 
 const ProductsPage = () => {
-  const [dataProduct, setDataProducts] = useState({});
-
-  useEffect(() => {
-    async function getProductData() {
-      try {
-        const data = await axios.get("http://localhost:2000/products");
-
-        setDataProducts(data?.data);
-      } catch (error) {
-        console.log("Error Get Data from API");
-        return error;
-      }
-    }
-
-    getProductData();
-  }, []);
-
-  return <AdminProductsPage productsData={dataProduct?.data} />;
+  return (
+    <div>
+      <AdminProductsPage />
+    </div>
+  );
 };
 
 export default ProductsPage;
