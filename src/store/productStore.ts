@@ -9,6 +9,12 @@ type Product = {
   price: number;
 };
 
+type PopAlert = {
+  isVisible: boolean;
+  status: boolean;
+  message: string;
+};
+
 type ProductStore = {
   products: Product[];
   productId: "";
@@ -20,6 +26,7 @@ type ProductStore = {
   isEditProduct: boolean;
   isDeleteProduct: boolean;
   isFilter: boolean;
+  popAlert: PopAlert;
 
   fetchAddProducts: () => Promise<void>;
   fetchAddProductById: (id: string) => Promise<void>;
@@ -36,6 +43,7 @@ type ProductStore = {
   isAddProducClosed: () => void;
   isFilterOpen: () => void;
   isFilterClosed: () => void;
+  popAlertVisibled: () => void;
 };
 
 export const useProductStore = create<ProductStore>((set) => ({
@@ -48,6 +56,11 @@ export const useProductStore = create<ProductStore>((set) => ({
   isEditProduct: false,
   isDeleteProduct: false,
   isFilter: false,
+  popAlert: {
+    isVisible: false,
+    status: false,
+    message: "",
+  },
 
   fetchAddProducts: async () => {
     try {
@@ -76,8 +89,22 @@ export const useProductStore = create<ProductStore>((set) => ({
 
       // SIMPAN ke zustand
       set({ products: updated?.data });
+      set({
+        popAlert: {
+          isVisible: true,
+          status: true,
+          message: "Berhasil menambahkan Product",
+        },
+      });
       set({ isAddProduct: false });
     } catch (error) {
+      set({
+        popAlert: {
+          isVisible: true,
+          status: false,
+          message: "Gagal menambahkan Product!!",
+        },
+      });
       set({ error: "error to fetch Data By Id" });
     }
   },
@@ -87,8 +114,22 @@ export const useProductStore = create<ProductStore>((set) => ({
       await productApi.editProduct(id, body);
       const updated = await productApi.getAllProducts();
       set({ products: updated?.data });
+      set({
+        popAlert: {
+          isVisible: true,
+          status: true,
+          message: "Berhasil Update Product",
+        },
+      });
       set({ isEditProduct: false });
     } catch (error) {
+      set({
+        popAlert: {
+          isVisible: true,
+          status: false,
+          message: "Gagal Update Product",
+        },
+      });
       set({ error: "error to edit Data" });
     }
   },
@@ -98,8 +139,22 @@ export const useProductStore = create<ProductStore>((set) => ({
       await productApi.deleteProduct(id);
       const updated = await productApi.getAllProducts();
       set({ products: updated?.data });
+      set({
+        popAlert: {
+          isVisible: true,
+          status: true,
+          message: "Berhasil Hapus Product",
+        },
+      });
       set({ isDeleteProduct: false });
     } catch (error) {
+      set({
+        popAlert: {
+          isVisible: true,
+          status: false,
+          message: "Gagal Hapus Product",
+        },
+      });
       set({ error: "error to Delete Data" });
     }
   },
@@ -129,5 +184,13 @@ export const useProductStore = create<ProductStore>((set) => ({
   },
   isFilterClosed: () => {
     set({ isFilter: false });
+  },
+  popAlertVisibled: () => {
+    set((state) => ({
+      popAlert: {
+        ...state.popAlert,
+        isVisible: false,
+      },
+    }));
   },
 }));

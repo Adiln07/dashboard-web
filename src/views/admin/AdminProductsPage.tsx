@@ -5,20 +5,6 @@ import ModalEditProduct from "../components/Modals/ModalEditProduct";
 import ModalDeleteProduct from "../components/Modals/ModalDeleteProduct";
 import ModalAddProduct from "../components/Modals/ModalAddProduct";
 
-// type typeProducts = {
-//   id: string;
-//   category: string;
-//   image: string;
-//   name: string;
-//   price: number;
-// };
-
-// interface adminProducts {
-//   productsData: typeProducts[];
-//   isEditProduct: boolean;
-//   isDeleteProduct: boolean;
-// }
-
 const AdminProductsPage = () => {
   const isEditProduct = useProductStore((state) => state.isEditProduct);
   const isDeleteProduct = useProductStore((state) => state.isDeleteProduct);
