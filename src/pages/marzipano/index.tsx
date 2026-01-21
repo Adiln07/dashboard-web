@@ -6,308 +6,135 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
 
-export default function MarzipanoHomePage() {
+export default function MarzipanoHomePage({ data }) {
   const panoRef = useRef(null);
   const [showModal, setShowModal] = useState(false);
   const [fullScreen, setFullScreen] = useState(false);
   const [idRuangan, setIdRuangan] = useState(0);
-  const scenes = [
-    { id: 0, image: "/panos/Panorama-RsMata0.jpg" },
-    { id: 1, image: "/panos/Panorama-RsMata1.jpg" },
-    { id: 2, image: "/panos/Panorama-RsMata2.jpg" },
-    { id: 3, image: "/panos/Panorama-RsMata3.jpg" },
-  ];
 
-  const hotspots = {
-    0: [
-      {
-        yaw: -0.5,
-        pitch: -0.1,
-        label: "Rumah Sakit Mata Makassar ",
-        description: "Rumah Sakit Makassar Tallasa City",
-      },
-    ],
-  };
+  const newData = data;
 
-  // const lantai = [
-  //   {
-  //     id: 0,
-  //     name: "Lantai 1",
+  const dynamicScenes = [];
 
-  //     ruangan: [
-  //       "Lobby",
-  //       "Loket Pendaftaran",
-  //       "Apotek",
-  //       "Radiologi",
-  //       "IGD",
-  //       "Instalasi Farmasi",
-  //       "Poliklinik Eksekutif",
-  //       "Laboratorium",
-  //       "Toilet",
-  //     ],
-  //   },
-  //   {
-  //     id: 1,
-  //     name: "Lantai 2",
-
-  //     ruangan: [
-  //       "Musholla",
-  //       "Ruang Refraksi",
-  //       "Ruang Administrasi",
-  //       "Poliklinik Mata",
-  //       "Ruang Penunjang Diagnostik",
-  //       "Instalasi Rawat Inap",
-  //       "Ruang Tindakan Rawat Jalan",
-  //     ],
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Lantai 3",
-  //     ruangan: ["ICU", "Instalasi Bedah Sentral", "Ruang Recovery", "CSSD"],
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Lantai 4",
-  //     ruangan: [
-  //       {
-  //         loc: "lokasi 1",
-  //         url: "/panos/Panorama-RsMata0.jpg",
-  //         hotspot: [
-  //           {
-  //             yaw: -0.5,
-  //             pitch: -0.1,
-  //             label: "Rumah Sakit Mata Makassar ",
-  //             description: "Rumah Sakit Makassar Tallasa City",
-  //           },
-  //         ],
-  //       },
-  //       {
-  //         loc: "lokasi 2",
-  //         url: "/panos/Panorama-RsMata1.jpg",
-  //       },
-  //       {
-  //         loc: "lokasi 3",
-  //         url: "/panos/Panorama-RsMata2.jpg",
-  //       },
-  //       {
-  //         loc: "lokasi4",
-  //         url: "/panos/Panorama-RsMata3.jpg",
-  //       },
-  //     ],
-  //   },
-  // ];
-
-  const lantai = [
-    {
-      id: 0,
-      name: "Lantai 1",
-      ruangan: [
-        {
-          loc: "Lobby",
-          url: "",
-          hotspot: [],
-        },
-        {
-          loc: "Loket Pendaftaran",
-          url: "",
-          hotspot: [],
-        },
-        {
-          loc: "Apotek",
-          url: "",
-          hotspot: [],
-        },
-        {
-          loc: "Radiologi",
-          url: "",
-          hotspot: [],
-        },
-        {
-          loc: "IGD",
-          url: "",
-          hotspot: [],
-        },
-        {
-          loc: "Instalasi Farmasi",
-          url: "",
-          hotspot: [],
-        },
-        {
-          loc: "Poliklinik Eksekutif",
-          url: "",
-          hotspot: [],
-        },
-        {
-          loc: "Laboratorium",
-          url: "",
-          hotspot: [],
-        },
-        {
-          loc: "Toilet",
-          url: "",
-          hotspot: [],
-        },
-      ],
-    },
-
-    {
-      id: 1,
-      name: "Lantai 2",
-      ruangan: [
-        { loc: "Musholla", url: "", hotspot: [] },
-        { loc: "Ruang Refraksi", url: "", hotspot: [] },
-        { loc: "Ruang Administrasi", url: "", hotspot: [] },
-        { loc: "Poliklinik Mata", url: "", hotspot: [] },
-        { loc: "Ruang Penunjang Diagnostik", url: "", hotspot: [] },
-        { loc: "Instalasi Rawat Inap", url: "", hotspot: [] },
-        { loc: "Ruang Tindakan Rawat Jalan", url: "", hotspot: [] },
-      ],
-    },
-
-    {
-      id: 2,
-      name: "Lantai 3",
-      ruangan: [
-        { loc: "ICU", url: "", hotspot: [] },
-        { loc: "Instalasi Bedah Sentral", url: "", hotspot: [] },
-        { loc: "Ruang Recovery", url: "", hotspot: [] },
-        { loc: "CSSD", url: "", hotspot: [] },
-      ],
-    },
-
-    {
-      id: 3,
-      name: "Lantai 4",
-      ruangan: [
-        {
-          loc: "lokasi 1",
-          url: "/panos/Panorama-RsMata0.jpg",
-          hotspot: [
-            {
-              yaw: -0.5,
-              pitch: -0.1,
-              label: "Rumah Sakit Mata Makassar",
-              description: "Rumah Sakit Makassar Tallasa City",
-            },
-          ],
-        },
-        {
-          loc: "lokasi 2",
-          url: "/panos/Panorama-RsMata1.jpg",
-          hotspot: [],
-        },
-        {
-          loc: "lokasi 3",
-          url: "/panos/Panorama-RsMata2.jpg",
-          hotspot: [],
-        },
-        {
-          loc: "lokasi 4",
-          url: "/panos/Panorama-RsMata3.jpg",
-          hotspot: [],
-        },
-      ],
-    },
-  ];
+  newData.forEach((lantai, lantaiIndex) => {
+    lantai.ruangan.forEach((ruangan, ruanganIndex) => {
+      if (ruangan.url && ruangan.url !== "") {
+        dynamicScenes.push({
+          id: `${lantaiIndex}-${ruanganIndex}`,
+          image: ruangan.url,
+          floor: lantaiIndex,
+          room: ruanganIndex,
+          hotspot: ruangan.hotspot ?? [],
+        });
+      }
+    });
+  });
 
   const scenesRef = useRef([]);
 
-  const handleSwitchScene = (index) => {
-    scenesRef.current[index].switchTo();
-    setShowModal(false); // biar modal langsung tutup
+  const handleSwitchScene = (sceneId) => {
+    const findScene = scenesRef.current.find((s) => s.id === sceneId);
+    if (!findScene) return;
+
+    findScene.scene.switchTo();
+    setShowModal(false);
   };
 
-  const findLantai = lantai?.find((lantai) => lantai.id === idRuangan)?.ruangan;
+  const findLantai = newData[idRuangan].ruangan.map((item, index) => ({
+    ...item,
+    sceneId: `${idRuangan}-${index}`, // ← ID yang terhubung ke scene
+  }));
+
+  const viewerRef = useRef(null);
 
   useEffect(() => {
-    let MarzipanoLib = null;
-
     import("marzipano").then((m) => {
-      MarzipanoLib = m.default;
-
-      if (!panoRef.current || !MarzipanoLib) return;
+      const MarzipanoLib = m.default;
 
       const viewer = new MarzipanoLib.Viewer(panoRef.current);
+      viewerRef.current = viewer;
 
-      const createdScenes = scenes.map((scene, index) => {
-        const source = MarzipanoLib.ImageUrlSource.fromString(scene.image);
-        const geometry = new MarzipanoLib.EquirectGeometry([{ width: 4096 }]);
+      const dynamicScenes = [];
 
-        const limiter = MarzipanoLib.RectilinearView.limit.traditional(
-          4096,
-          (100 * Math.PI) / 180,
-        );
+      newData.forEach((lantai, lantaiIndex) => {
+        lantai.ruangan.forEach((ruangan, ruanganIndex) => {
+          if (!ruangan.url) return; // skip kosong
 
-        const view = new MarzipanoLib.RectilinearView({}, limiter);
+          const id = `${lantaiIndex}-${ruanganIndex}`;
 
-        // === BUAT SCENE ===
-        const created = viewer.createScene({ source, geometry, view });
+          const source = MarzipanoLib.ImageUrlSource.fromString(ruangan.url);
+          const geometry = new MarzipanoLib.EquirectGeometry([{ width: 4096 }]);
+          const limiter = MarzipanoLib.RectilinearView.limit.traditional(
+            4096,
+            (100 * Math.PI) / 180,
+          );
+          const view = new MarzipanoLib.RectilinearView({}, limiter);
 
-        // === AMBIL HOTSPOT UNTUK SCENE INI ===
-        const hotspotList = hotspots[index] || [];
+          const scene = viewer.createScene({ source, geometry, view });
 
-        hotspotList.forEach((spot) => {
-          // === BUNGKUS HOTSPOT (container) ===
-          const wrapper = document.createElement("div");
-          wrapper.className = "relative";
+          // ============================
+          // 🚀 HOTSPOT DITEMPELKAN DI SINI
+          // ============================
+          const hotspotList = ruangan.hotspot || [];
 
-          // === ICON HOTSPOT ===
-          const icon = document.createElement("div");
-          icon.className =
-            "w-7 h-7 bg-blue-600 text-white text-sm flex items-center justify-center rounded-full cursor-pointer shadow-lg";
-          icon.innerText = "i";
+          hotspotList.forEach((spot) => {
+            const wrapper = document.createElement("div");
+            wrapper.className = "relative";
 
-          // === TOOLTIP (DISEMBUNYIKAN DULU) ===
-          const tooltip = document.createElement("div");
-          tooltip.className =
-            "hidden absolute left-8 top-1 bg-white text-black p-2 rounded-lg shadow-xl text-xs w-[150px] border border-gray-300 z-50";
-          tooltip.innerHTML = `<b>${spot.label}</b><br>${spot.description}`;
+            const icon = document.createElement("div");
+            icon.className =
+              "w-7 h-7 bg-blue-600 text-white text-sm flex items-center justify-center rounded-full cursor-pointer shadow-lg";
+            icon.innerText = "i";
 
-          // === CLICK UNTUK SHOW/HIDE ===
-          icon.addEventListener("click", () => {
-            tooltip.classList.toggle("hidden");
+            const tooltip = document.createElement("div");
+            tooltip.className =
+              "hidden absolute left-8 top-1 bg-white text-black p-2 rounded-lg shadow-xl text-xs w-[150px] border border-gray-300 z-50";
+            tooltip.innerHTML = `<b>${spot.label}</b><br>${spot.description}`;
+
+            icon.addEventListener("click", () => {
+              tooltip.classList.toggle("hidden");
+            });
+
+            wrapper.appendChild(icon);
+            wrapper.appendChild(tooltip);
+
+            scene.hotspotContainer().createHotspot(wrapper, {
+              yaw: spot.yaw,
+              pitch: spot.pitch,
+            });
           });
 
-          // MASUKKAN ICON + TOOLTIP KE DALAM WRAPPER
-          wrapper.appendChild(icon);
-          wrapper.appendChild(tooltip);
-
-          // === TEMPATKAN HOTSPOT DI PANORAMA ===
-          created
-            .hotspotContainer()
-            .createHotspot(wrapper, { yaw: spot.yaw, pitch: spot.pitch });
+          dynamicScenes.push({ id, scene });
         });
-
-        return created;
       });
 
-      createdScenes[0].switchTo();
-      scenesRef.current = createdScenes;
+      scenesRef.current = dynamicScenes;
+
+      dynamicScenes[0]?.scene.switchTo();
     });
-  }, []);
+  }, [newData]);
 
   useEffect(() => {
-    if (!scenesRef.current.length) return;
+    if (!viewerRef.current) return;
 
-    const viewer = scenesRef.current[0].viewer();
+    const viewer = viewerRef.current;
 
-    // Recalculate Marzipano size & view when fullscreen changes
     setTimeout(() => {
       viewer.updateSize();
+
       scenesRef.current.forEach((s) => {
         try {
-          s.view().setParameters({});
+          s.scene.view().setParameters({});
         } catch (_) {}
       });
-    }, 50);
+    }, 200);
   }, [fullScreen]);
 
   return (
     <div className="">
       <div
-        className={`relative ${fullScreen ? "w-screen h-screen" : "w-[60em] h-[40em] m-auto my-4  "}`}
+        className={`relative ${fullScreen ? "w-screen h-screen" : "xl:w-[60em] xl:h-[40em] h-[40em] w-[20em]  m-auto my-4  "}`}
       >
-        {/* MARZIPANO VIEWER */}
         <div
           ref={panoRef}
           className={`w-full h-full marzipano-container ${!fullScreen && "rounded-2xl"}`}
@@ -363,9 +190,8 @@ export default function MarzipanoHomePage() {
                 </button>
               </div>
 
-              {/* Modal Content */}
-              <div className="w-full flex gap-2 my-5 justify-center">
-                {lantai?.map((item) => (
+              <div className="w-full flex-wrap xl:flex-nowrap flex gap-2 my-5 justify-center">
+                {newData?.map((item: any) => (
                   <button
                     key={item?.id}
                     className={`w-1/3 bg-gray-400 hover:bg-gray-600 py-2 text-white rounded-lg cursor-pointer`}
@@ -375,32 +201,28 @@ export default function MarzipanoHomePage() {
                   </button>
                 ))}
               </div>
-              <div className="w-full grid  grid-cols-3 gap-2">
-                {findLantai.map((item, index) => (
+              <div className="w-full grid  xl:grid-cols-3 gap-2">
+                {findLantai.map((item: any, index: number) => (
                   <p
                     key={index}
+                    onClick={() => handleSwitchScene(item.sceneId)}
                     className="bg-blue-400 text-center py-2 text-white rounded-xl cursor-pointer hover:bg-blue-600"
                   >
                     {item.loc}
                   </p>
                 ))}
               </div>
-
-              {/* <ul className="space-y-2 w-full text-center my-5">
-                {scenes.map((s, index) => (
-                  <li
-                    key={s.id}
-                    onClick={() => handleSwitchScene(index)}
-                    className="cursor-pointer hover:text-blue-600"
-                  >
-                    lokasi {index + 1}
-                  </li>
-                ))}
-              </ul> */}
             </div>
           </div>
         )}
       </div>
     </div>
   );
+}
+
+export async function getServerSideProps() {
+  const res = await fetch("http://localhost:3000/api/lantai");
+  const data = await res.json();
+
+  return { props: { data } };
 }
