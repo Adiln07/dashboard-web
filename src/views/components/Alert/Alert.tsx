@@ -8,8 +8,6 @@ import { useProductStore } from "@/store/productStore";
 const Alert = () => {
   const popAlert = useProductStore((state) => state.popAlert);
 
-  console.log("isi pop Alert", popAlert);
-
   return (
     <div
       className={`${popAlert.isVisible ? "opacity-100" : "hidden"}  fixed  m-auto left-1/2 top-10 z-[2000] w-full -translate-x-1/2 transform px-20 transition-opacity duration-500`}

@@ -1,3 +1,4 @@
+import { productApi } from "@/api/products/AdminProductsPage";
 import { useProductStore } from "@/store/productStore";
 import { useEffect, useState } from "react";
 
@@ -8,10 +9,11 @@ const ModalEditProduct = () => {
   const isEditClosed = useProductStore((state) => state.isEditClosed);
   const editProduct = useProductStore((state) => state.editProduct);
   const fetchAddProductById = useProductStore(
-    (state) => state.fetchAddProductById
+    (state) => state.fetchAddProductById,
   );
 
-  const [ediData, setEditData] = useState({
+  const [fotoFile, setFotoFile] = useState(null);
+  const [editData, setEditData] = useState({
     category: "",
     image: "",
     name: "",
@@ -35,6 +37,18 @@ const ModalEditProduct = () => {
     }
   }, [productById]);
 
+  const url = fotoFile ? URL.createObjectURL(fotoFile) : "";
+
+  const handleFileFoto = (e) => {
+    const { files } = e.target;
+
+    setFotoFile(files[0]);
+  };
+
+  console.log("url: ", url);
+  console.log("edit: ", editData);
+  console.log("foto File: ", fotoFile);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-300/75">
       <div className="max-h-[90vh] w-1/4 overflow-y-auto rounded-xl bg-white p-2 text-sm">
@@ -51,9 +65,16 @@ const ModalEditProduct = () => {
         {/* Modal Content */}
         <form
           className="flex flex-col p-6 w-full "
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault();
-            editProduct(productId, ediData);
+
+            if (fotoFile) {
+              const upload = await productApi.uploadFile(fotoFile);
+              const imageUrl = upload.data.url;
+              editProduct(productId, { ...editData, image: imageUrl });
+            } else {
+              editProduct(productId, editData);
+            }
           }}
         >
           <div className="flex flex-col ">
@@ -63,7 +84,7 @@ const ModalEditProduct = () => {
             <input
               type="text"
               className="border-2 rounded-lg pl-2 h-10"
-              value={ediData?.name}
+              value={editData?.name}
               onChange={(e) =>
                 setEditData((prev) => ({
                   ...prev,
@@ -80,7 +101,7 @@ const ModalEditProduct = () => {
               type="text"
               className="border-2 rounded-lg pl-2 h-10"
               placeholder="input Category..."
-              value={ediData?.category}
+              value={editData?.category}
               onChange={(e) =>
                 setEditData((prev) => ({
                   ...prev,
@@ -93,17 +114,17 @@ const ModalEditProduct = () => {
             <label htmlFor="" className="text-lg">
               Image
             </label>
+            <img
+              src={fotoFile ? url : editData.image}
+              alt=""
+              className="h-[10em] w-[10em] my-2 rounded-lg object-cover"
+            />
             <input
-              type="text"
-              className="border-2 rounded-lg pl-2 h-10"
+              type="file"
+              className="border-2 rounded-lg pl-2 py-2"
               placeholder="image..."
-              value={ediData?.image}
-              onChange={(e) =>
-                setEditData((prev) => ({
-                  ...prev,
-                  image: e.target.value,
-                }))
-              }
+              // value={editData?.image}
+              onChange={handleFileFoto}
             />
           </div>
           <div className="flex flex-col ">
@@ -114,11 +135,11 @@ const ModalEditProduct = () => {
               type="number"
               className="border-2 rounded-lg pl-2 h-10"
               placeholder="price..."
-              value={ediData?.price}
+              value={editData?.price}
               onChange={(e) =>
                 setEditData((prev) => ({
                   ...prev,
-                  price: e.target.value,
+                  price: Number(e.target.value),
                 }))
               }
             />

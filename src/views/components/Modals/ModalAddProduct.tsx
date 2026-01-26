@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useProductStore } from "@/store/productStore";
+import { productApi } from "@/api/products/AdminProductsPage";
 
 const ModalAddProduct = () => {
   const isAddProducClosed = useProductStore((state) => state.isAddProducClosed);
@@ -7,10 +8,16 @@ const ModalAddProduct = () => {
 
   const [addData, setAddData] = useState({
     category: "",
-    image: "",
+    image: null,
     name: "",
     price: 0,
   });
+
+  const handleInputImage = (e) => {
+    const { files } = e.target;
+
+    setAddData((prev) => ({ ...prev, image: files[0] }));
+  };
 
   return (
     <div>
@@ -29,9 +36,19 @@ const ModalAddProduct = () => {
           {/* Modal Content */}
           <form
             className="flex flex-col p-6 w-full "
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              addProduct(addData);
+
+              const afterUp = await productApi.uploadFile(addData.image);
+
+              const imageUrl = afterUp.data.url;
+
+              await addProduct({
+                ...addData,
+                image: imageUrl,
+              });
+
+              // addProduct(addData);
             }}
           >
             <div className="flex flex-col ">
@@ -43,10 +60,7 @@ const ModalAddProduct = () => {
                 className="border-2 rounded-lg pl-2 h-10"
                 value={addData?.name}
                 onChange={(e) =>
-                  setAddData((prev) => ({
-                    ...prev,
-                    name: e.target.value,
-                  }))
+                  setAddData((prev) => ({ ...prev, name: e.target.value }))
                 }
                 placeholder="Name..."
                 required
@@ -62,10 +76,7 @@ const ModalAddProduct = () => {
                 placeholder="input Category..."
                 value={addData?.category}
                 onChange={(e) =>
-                  setAddData((prev) => ({
-                    ...prev,
-                    category: e.target.value,
-                  }))
+                  setAddData((prev) => ({ ...prev, category: e.target.value }))
                 }
                 required
               />
@@ -75,16 +86,10 @@ const ModalAddProduct = () => {
                 Image
               </label>
               <input
-                type="text"
-                className="border-2 rounded-lg pl-2 h-10"
+                type="file"
+                className="border-2 rounded-lg pl-2 py-2 flex "
                 placeholder="image..."
-                value={addData?.image}
-                onChange={(e) =>
-                  setAddData((prev) => ({
-                    ...prev,
-                    image: e.target.value,
-                  }))
-                }
+                onChange={handleInputImage}
                 required
               />
             </div>
