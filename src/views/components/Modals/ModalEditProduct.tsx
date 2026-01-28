@@ -45,10 +45,6 @@ const ModalEditProduct = () => {
     setFotoFile(files[0]);
   };
 
-  console.log("url: ", url);
-  console.log("edit: ", editData);
-  console.log("foto File: ", fotoFile);
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-300/75">
       <div className="max-h-[90vh] w-1/4 overflow-y-auto rounded-xl bg-white p-2 text-sm">

@@ -14,21 +14,21 @@ export default function MarzipanoHomePage({ data }) {
 
   const newData = data;
 
-  const dynamicScenes = [];
+  // const dynamicScenes = [];
 
-  newData.forEach((lantai, lantaiIndex) => {
-    lantai.ruangan.forEach((ruangan, ruanganIndex) => {
-      if (ruangan.url && ruangan.url !== "") {
-        dynamicScenes.push({
-          id: `${lantaiIndex}-${ruanganIndex}`,
-          image: ruangan.url,
-          floor: lantaiIndex,
-          room: ruanganIndex,
-          hotspot: ruangan.hotspot ?? [],
-        });
-      }
-    });
-  });
+  // newData.forEach((lantai, lantaiIndex) => {
+  //   lantai.ruangan.forEach((ruangan, ruanganIndex) => {
+  //     if (ruangan.url && ruangan.url !== "") {
+  //       dynamicScenes.push({
+  //         id: `${lantaiIndex}-${ruanganIndex}`,
+  //         image: ruangan.url,
+  //         floor: lantaiIndex,
+  //         room: ruanganIndex,
+  //         hotspot: ruangan.hotspot ?? [],
+  //       });
+  //     }
+  //   });
+  // });
 
   const scenesRef = useRef([]);
 
@@ -72,9 +72,6 @@ export default function MarzipanoHomePage({ data }) {
 
           const scene = viewer.createScene({ source, geometry, view });
 
-          // ============================
-          // 🚀 HOTSPOT DITEMPELKAN DI SINI
-          // ============================
           const hotspotList = ruangan.hotspot || [];
 
           hotspotList.forEach((spot) => {
@@ -131,9 +128,9 @@ export default function MarzipanoHomePage({ data }) {
   }, [fullScreen]);
 
   return (
-    <div className="">
+    <div className="flex justify-center items-center h-screen">
       <div
-        className={`relative ${fullScreen ? "w-screen h-screen" : "xl:w-[60em] xl:h-[40em] h-[40em] w-[20em]  m-auto my-4  "}`}
+        className={`relative ${fullScreen ? "w-screen h-screen" : "xl:w-[60em] xl:h-[40em] h-[40em] w-[20em]    "}`}
       >
         <div
           ref={panoRef}
@@ -174,7 +171,7 @@ export default function MarzipanoHomePage({ data }) {
         </div>
 
         {showModal && (
-          <div className=" w-full h-full absolute top-0 bottom-0 z-50 flex items-center justify-center bg-black/50">
+          <div className=" w-full h-full absolute top-0 bottom-0 z-50 flex items-center justify-center bg-black/50 rounded-2xl">
             <div
               className={`max-h-[90vh] ${fullScreen ? "w-2/4" : "w-3/4"} overflow-y-auto rounded-xl bg-white p-2 text-sm`}
             >
@@ -201,7 +198,7 @@ export default function MarzipanoHomePage({ data }) {
                   </button>
                 ))}
               </div>
-              <div className="w-full grid  xl:grid-cols-3 gap-2">
+              {/* <div className="w-full grid  xl:grid-cols-3 gap-2">
                 {findLantai.map((item: any, index: number) => (
                   <p
                     key={index}
@@ -211,7 +208,7 @@ export default function MarzipanoHomePage({ data }) {
                     {item.loc}
                   </p>
                 ))}
-              </div>
+              </div> */}
             </div>
           </div>
         )}
