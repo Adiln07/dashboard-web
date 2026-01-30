@@ -198,7 +198,7 @@ export default function MarzipanoHomePage({ data }) {
                   </button>
                 ))}
               </div>
-              {/* <div className="w-full grid  xl:grid-cols-3 gap-2">
+              <div className="w-full grid  xl:grid-cols-3 gap-2">
                 {findLantai.map((item: any, index: number) => (
                   <p
                     key={index}
@@ -208,7 +208,7 @@ export default function MarzipanoHomePage({ data }) {
                     {item.loc}
                   </p>
                 ))}
-              </div> */}
+              </div>
             </div>
           </div>
         )}
