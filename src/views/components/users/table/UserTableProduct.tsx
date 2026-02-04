@@ -1,53 +1,34 @@
-import { useProductStore } from "@/store/productStore";
 import { useEffect, useState } from "react";
+import { useUsersProductStore } from "@/store/usersProductStore";
 
-// type typeProducts = {
-//   id: string;
-//   category: string;
-//   image: string;
-//   name: string;
-//   price: number;
-// };
+const UserTableProduct = () => {
+  const data = useUsersProductStore((state) => state.products);
+  const fetchGetProducts = useUsersProductStore(
+    (state) => state.fetchGetProducts,
+  );
+  const loading = useUsersProductStore((state) => state.loading);
+  const products = useUsersProductStore((state) => state.products);
+  const isAddProductOpen = useUsersProductStore(
+    (state) => state.isAddProductOpen,
+  );
+  const isFilter = useUsersProductStore((state) => state.isFilter);
+  const isFilterOpen = useUsersProductStore((state) => state.isFilterOpen);
+  const isFilterClosed = useUsersProductStore((state) => state.isFilterClosed);
 
-// interface props {
-//   data: typeProducts[];
-//   isEdit: boolean;
-//   isDelete: boolean;
-// }
-
-const TableProduct = () => {
-  const data = useProductStore((state) => state.products);
-  const loading = useProductStore((state) => state.loading);
-  const fetchAddProducts = useProductStore((state) => state.fetchAddProducts);
-  const setProductId = useProductStore((state) => state.setProductId);
-  const isEditOpen = useProductStore((state) => state.isEditOpen);
-  const isDeleteOpen = useProductStore((state) => state.isDeleteOpen);
-  const isAddProductOpen = useProductStore((state) => state.isAddProductOpen);
-  const iSFilter = useProductStore((state) => state.isFilter);
-  const isFilterOpen = useProductStore((state) => state.isFilterOpen);
-  const isFilterClosed = useProductStore((state) => state.isFilterClosed);
   const [filterName, setFilterName] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
 
   useEffect(() => {
-    fetchAddProducts();
+    fetchGetProducts();
   }, []);
-
-  const OpenModalEdit = (id: string) => {
-    setProductId(id);
-    isEditOpen();
-  };
-
-  const openModaldelete = (id: string) => {
-    setProductId(id);
-    isDeleteOpen();
-  };
 
   const filterData = data?.filter(
     (product) =>
       product.name.toLowerCase().includes(filterName.toLowerCase()) &&
       product.category.toLowerCase().includes(filterCategory.toLowerCase()),
   );
+
+  console.log("data produk user:", products);
 
   return (
     <div className="w-[65em] m-auto mb-10 ">
@@ -62,7 +43,7 @@ const TableProduct = () => {
             {" "}
             Add Product
           </button>
-          {iSFilter ? (
+          {isFilter ? (
             <button
               className="bg-red-600 text-white py-1 px-2  my-2 hover:bg-red-700 rounded-md ml-2"
               onClick={() => isFilterClosed()}
@@ -83,7 +64,7 @@ const TableProduct = () => {
             <table className="w-full border-collapse text-sm">
               <thead className="bg-white-100 text-gray-700">
                 <tr className="text-left">
-                  {iSFilter ? (
+                  {isFilter ? (
                     <tr className="flex">
                       <th className="px-3 py-2 flex flex-col">
                         <span>Name</span>
@@ -141,13 +122,13 @@ const TableProduct = () => {
                     </td>
                     <td className="text-center">
                       <button
-                        onClick={() => OpenModalEdit(item?.id)}
+                        // onClick={() => OpenModalEdit(item?.id)}
                         className="rounded-md bg-blue-600 px-3 py-1 text-xs font-medium text-white hover:bg-blue-700"
                       >
                         Edit
                       </button>
                       <button
-                        onClick={() => openModaldelete(item?.id)}
+                        // onClick={() => openModaldelete(item?.id)}
                         className="rounded-md ml-2 bg-red-600 px-3 py-1 text-xs font-medium text-white hover:bg-red-700"
                       >
                         Hapus
@@ -164,4 +145,4 @@ const TableProduct = () => {
   );
 };
 
-export default TableProduct;
+export default UserTableProduct;

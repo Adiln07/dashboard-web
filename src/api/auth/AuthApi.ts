@@ -16,7 +16,7 @@ export const AuthApi = {
   authLogout: async () => {
     try {
       const response = await AxiosConfig.post(
-        "logout",
+        "/logout",
         {},
         {
           withCredentials: true,
