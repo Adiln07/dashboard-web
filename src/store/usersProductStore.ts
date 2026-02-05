@@ -32,6 +32,7 @@ type UsersProductStore = {
   isAddProducClosed: () => void;
   isFilterOpen: () => void;
   isFilterClosed: () => void;
+  popAlertVisibled: () => void;
 };
 
 export const useUsersProductStore = create<UsersProductStore>((set) => ({
@@ -70,10 +71,12 @@ export const useUsersProductStore = create<UsersProductStore>((set) => ({
 
       set({
         products: updatedProducts?.data || [],
+      });
+      set({
         popAlert: {
           isVisible: true,
           status: true,
-          message: "Product added successfully!",
+          message: "Berhasil menambahkan Product",
         },
       });
       set({ isAddProduct: false });
@@ -99,5 +102,13 @@ export const useUsersProductStore = create<UsersProductStore>((set) => ({
   },
   isFilterClosed: () => {
     set({ isFilter: false });
+  },
+  popAlertVisibled: () => {
+    set((state) => ({
+      popAlert: {
+        ...state.popAlert,
+        isVisible: false,
+      },
+    }));
   },
 }));

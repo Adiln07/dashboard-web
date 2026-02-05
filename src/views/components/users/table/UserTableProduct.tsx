@@ -28,8 +28,6 @@ const UserTableProduct = () => {
       product.category.toLowerCase().includes(filterCategory.toLowerCase()),
   );
 
-  console.log("data produk user:", products);
-
   return (
     <div className="w-[65em] m-auto mb-10 ">
       {loading ? (
@@ -70,7 +68,7 @@ const UserTableProduct = () => {
                         <span>Name</span>
                         <input
                           type="text"
-                          className="border-1 "
+                          className="border-[1.5px] "
                           value={filterName}
                           onChange={(e) => setFilterName(e.target.value)}
                         />
@@ -80,7 +78,7 @@ const UserTableProduct = () => {
 
                         <input
                           type="text"
-                          className="border-1"
+                          className="border-[1.5px]"
                           value={filterCategory}
                           onChange={(e) => setFilterCategory(e.target.value)}
                         />

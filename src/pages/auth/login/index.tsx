@@ -29,7 +29,7 @@ const LoginPage = () => {
                 router.push("/users/home");
               } catch (err) {
                 setErrorMessage(err.response.data.message);
-                console.log("error gan: ", err);
+                console.error("error gan: ", err);
               }
             }}
           >
