@@ -12,7 +12,7 @@ const LoginPage = () => {
       <div className=" bg-white w-[25em] rounded-xl shadow-xl">
         {" "}
         <div className="my-10 flex justify-center flex-col items-center">
-          <p className="text-xl font-semibold">Login Admin</p>
+          <p className="text-xl font-semibold">Login User</p>
           <form
             className="w-full px-5  flex flex-col gap-1"
             onSubmit={async (e) => {

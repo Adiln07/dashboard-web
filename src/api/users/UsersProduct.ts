@@ -33,4 +33,14 @@ export const userProductApi = {
       throw new Error("Failed Post API Product ");
     }
   },
+
+  editProductById: async (id: string, body: any) => {
+    try {
+      const response = await AxiosConfig.patch(`/products/${id}`, body, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {}
+    throw new Error("Failed Patch API Product By ID");
+  },
 };

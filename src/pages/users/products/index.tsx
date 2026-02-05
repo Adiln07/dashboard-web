@@ -17,7 +17,7 @@ const UsersProduct = () => {
 
   return (
     <div>
-      {/* <Alert /> */}
+      <Alert />
       <UsersProducts />;
     </div>
   );

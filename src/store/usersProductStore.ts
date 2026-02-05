@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { userProductApi } from "@/api/users/UsersProduct";
-
+import { PopAlert } from "@/types/typePopAlert";
 type Product = {
   id: string;
   category: string;
@@ -8,12 +8,6 @@ type Product = {
   name: string;
   price: number;
   userId: string;
-};
-
-type PopAlert = {
-  isVisible: boolean;
-  status: boolean;
-  message: string;
 };
 
 type UsersProductStore = {

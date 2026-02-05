@@ -3,7 +3,6 @@ import {
   faXmarkCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { useProductStore } from "@/store/productStore";
 import { useUsersProductStore } from "@/store/usersProductStore";
 
 const Alert = () => {
