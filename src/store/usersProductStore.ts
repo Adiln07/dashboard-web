@@ -13,17 +13,23 @@ type Product = {
 type UsersProductStore = {
   products: Product[];
   productById: Product | null;
+  productId: string;
   loading: boolean;
   error: string | null;
   popAlert: PopAlert;
   isAddProduct: boolean;
+  isEditProduct: boolean;
   isFilter: boolean;
 
   fetchGetProducts: () => Promise<void>;
   fetchGetProductById: (id: string) => Promise<void>;
   addProduct: (body: Product) => Promise<void>;
+  editProduct: (body: Product, id: string) => Promise<void>;
+  setProductId: (id: string) => void;
   isAddProductOpen: () => void;
   isAddProducClosed: () => void;
+  isEditProductOpen: () => void;
+  isEditProductClosed: () => void;
   isFilterOpen: () => void;
   isFilterClosed: () => void;
   popAlertVisibled: () => void;
@@ -32,6 +38,7 @@ type UsersProductStore = {
 export const useUsersProductStore = create<UsersProductStore>((set) => ({
   products: [],
   productById: null,
+  productId: "",
   loading: false,
   error: null,
   popAlert: {
@@ -40,6 +47,7 @@ export const useUsersProductStore = create<UsersProductStore>((set) => ({
     message: "",
   },
   isAddProduct: false,
+  isEditProduct: false,
   isFilter: false,
 
   fetchGetProducts: async () => {
@@ -74,6 +82,7 @@ export const useUsersProductStore = create<UsersProductStore>((set) => ({
         },
       });
       set({ isAddProduct: false });
+      set({ productId: "" });
     } catch (error) {
       set({
         popAlert: {
@@ -84,12 +93,35 @@ export const useUsersProductStore = create<UsersProductStore>((set) => ({
       });
     }
   },
+  editProduct: async (body: Product, id: string) => {
+    try {
+      await userProductApi.editProductById(id, body);
+      const updatedProducts = await userProductApi.getAllProducts();
+      set({ products: updatedProducts?.data || [] });
+      set({
+        popAlert: {
+          isVisible: true,
+          status: true,
+          message: "Berhasil mengedit Product",
+        },
+      });
+      set({ isEditProduct: false });
+      set({});
+    } catch (error) {}
+  },
 
+  setProductId: (id: string) => set({ productId: id }),
   isAddProductOpen: () => {
     set({ isAddProduct: true });
   },
   isAddProducClosed: () => {
     set({ isAddProduct: false });
+  },
+  isEditProductOpen: () => {
+    set({ isEditProduct: true });
+  },
+  isEditProductClosed: () => {
+    set({ isEditProduct: false });
   },
   isFilterOpen: () => {
     set({ isFilter: true });

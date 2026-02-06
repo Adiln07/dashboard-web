@@ -7,13 +7,14 @@ const UserTableProduct = () => {
     (state) => state.fetchGetProducts,
   );
   const loading = useUsersProductStore((state) => state.loading);
-  const products = useUsersProductStore((state) => state.products);
   const isAddProductOpen = useUsersProductStore(
     (state) => state.isAddProductOpen,
   );
   const isFilter = useUsersProductStore((state) => state.isFilter);
   const isFilterOpen = useUsersProductStore((state) => state.isFilterOpen);
   const isFilterClosed = useUsersProductStore((state) => state.isFilterClosed);
+  const isEditOpen = useUsersProductStore((state) => state.isEditProductOpen);
+  const setProductId = useUsersProductStore((state) => state.setProductId);
 
   const [filterName, setFilterName] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
@@ -27,6 +28,11 @@ const UserTableProduct = () => {
       product.name.toLowerCase().includes(filterName.toLowerCase()) &&
       product.category.toLowerCase().includes(filterCategory.toLowerCase()),
   );
+
+  const openModalEdit = (id: string) => {
+    setProductId(id);
+    isEditOpen();
+  };
 
   return (
     <div className="w-[65em] m-auto mb-10 ">
@@ -120,7 +126,7 @@ const UserTableProduct = () => {
                     </td>
                     <td className="text-center">
                       <button
-                        // onClick={() => OpenModalEdit(item?.id)}
+                        onClick={() => openModalEdit(item?.id)}
                         className="rounded-md bg-blue-600 px-3 py-1 text-xs font-medium text-white hover:bg-blue-700"
                       >
                         Edit
