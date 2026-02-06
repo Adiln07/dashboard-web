@@ -2,6 +2,7 @@ import { AuthApi } from "@/api/auth/AuthApi";
 import { useAuthStore } from "@/store/AuthStore";
 import { faSearch, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
@@ -12,16 +13,35 @@ const TopBarNavigation = () => {
   const profileData = useAuthStore((state) => state.profileData);
   const fetchProfile = useAuthStore((state) => state.fetchProfile);
   const errorFetchProfile = useAuthStore((state) => state.error);
+  const pathName = usePathname();
+  const adminPath = pathName?.startsWith("/admin");
+  const userPath = pathName?.startsWith("/users");
 
   useEffect(() => {
     fetchProfile();
   }, []);
 
   useEffect(() => {
-    if (errorFetchProfile === "unauthorized") {
+    if (errorFetchProfile === "unauthorized" && userPath) {
       router.push("/auth/login");
+    } else if (errorFetchProfile === "unauthorized" && adminPath) {
+      router.push("/auth/admin/login");
     }
   }, [errorFetchProfile]);
+
+  useEffect(() => {
+    const checkAccess = () => {
+      if (!profileData) return;
+      if (profileData.role === "Admin" && userPath) {
+        router.push("/admin/home");
+      }
+      if (profileData.role === "user" && adminPath) {
+        router.push("/users/home");
+      }
+    };
+
+    checkAccess();
+  }, [profileData, adminPath, userPath]);
 
   const handleToggle = () => {
     setIsKlik((s) => !s);
@@ -29,8 +49,15 @@ const TopBarNavigation = () => {
 
   const handleLogout = async () => {
     try {
+      const currentRole = profileData?.role;
+
       await AuthApi.authLogout();
-      router.push("/auth/login");
+      if (currentRole === "Admin") {
+        router.push("/auth/admin/login");
+      }
+      if (currentRole === "user") {
+        router.push("/auth/login");
+      }
     } catch (error) {
       console.error(error.message);
     }
