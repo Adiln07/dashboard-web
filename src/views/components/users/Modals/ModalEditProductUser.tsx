@@ -47,11 +47,6 @@ const ModalEditProductUser = () => {
     setFotoFile(files[0]);
   };
 
-  console.log("isEditProduct", isEditProduct);
-  console.log("editData", editData);
-  console.log("productById", productById);
-  console.log("productId", productId);
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-300/75">
       <div className="max-h-[90vh] w-1/4 overflow-y-auto rounded-xl bg-white p-2 text-sm">

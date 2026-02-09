@@ -43,4 +43,14 @@ export const userProductApi = {
     } catch (error) {}
     throw new Error("Failed Patch API Product By ID");
   },
+  deleteProductById: async (id: string) => {
+    try {
+      const response = await AxiosConfig.delete(`/products/${id}`, {
+        withCredentials: true,
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed Delete API Product By ID");
+    }
+  },
 };

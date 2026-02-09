@@ -19,17 +19,23 @@ type UsersProductStore = {
   popAlert: PopAlert;
   isAddProduct: boolean;
   isEditProduct: boolean;
+  isDeleteProduct: boolean;
+
   isFilter: boolean;
 
   fetchGetProducts: () => Promise<void>;
   fetchGetProductById: (id: string) => Promise<void>;
   addProduct: (body: Product) => Promise<void>;
   editProduct: (body: Product, id: string) => Promise<void>;
+  deleteProduct: (id: string) => Promise<void>;
+
   setProductId: (id: string) => void;
   isAddProductOpen: () => void;
   isAddProducClosed: () => void;
   isEditProductOpen: () => void;
   isEditProductClosed: () => void;
+  isDeleteOpen: () => void;
+  isDeleteClosed: () => void;
   isFilterOpen: () => void;
   isFilterClosed: () => void;
   popAlertVisibled: () => void;
@@ -48,6 +54,7 @@ export const useUsersProductStore = create<UsersProductStore>((set) => ({
   },
   isAddProduct: false,
   isEditProduct: false,
+  isDeleteProduct: false,
   isFilter: false,
 
   fetchGetProducts: async () => {
@@ -109,6 +116,30 @@ export const useUsersProductStore = create<UsersProductStore>((set) => ({
       set({});
     } catch (error) {}
   },
+  deleteProduct: async (id: string) => {
+    try {
+      await userProductApi.deleteProductById(id);
+      const updatedProducts = await userProductApi.getAllProducts();
+      set({ products: updatedProducts?.data || [] });
+      set({
+        popAlert: {
+          isVisible: true,
+          status: true,
+          message: "Berhasil menghapus Product",
+        },
+      });
+      set({ isDeleteProduct: false });
+    } catch (error) {
+      set({
+        popAlert: {
+          isVisible: true,
+          status: false,
+          message: "Gagal Hapus Product",
+        },
+      });
+      set({ error: "error to Delete Data" });
+    }
+  },
 
   setProductId: (id: string) => set({ productId: id }),
   isAddProductOpen: () => {
@@ -122,6 +153,12 @@ export const useUsersProductStore = create<UsersProductStore>((set) => ({
   },
   isEditProductClosed: () => {
     set({ isEditProduct: false });
+  },
+  isDeleteOpen: () => {
+    set({ isDeleteProduct: true });
+  },
+  isDeleteClosed: () => {
+    set({ isDeleteProduct: false });
   },
   isFilterOpen: () => {
     set({ isFilter: true });

@@ -15,6 +15,7 @@ const UserTableProduct = () => {
   const isFilterClosed = useUsersProductStore((state) => state.isFilterClosed);
   const isEditOpen = useUsersProductStore((state) => state.isEditProductOpen);
   const setProductId = useUsersProductStore((state) => state.setProductId);
+  const isDeleteOpen = useUsersProductStore((state) => state.isDeleteOpen);
 
   const [filterName, setFilterName] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
@@ -32,6 +33,11 @@ const UserTableProduct = () => {
   const openModalEdit = (id: string) => {
     setProductId(id);
     isEditOpen();
+  };
+
+  const openModalDelete = (id: string) => {
+    setProductId(id);
+    isDeleteOpen();
   };
 
   return (
@@ -132,7 +138,7 @@ const UserTableProduct = () => {
                         Edit
                       </button>
                       <button
-                        // onClick={() => openModaldelete(item?.id)}
+                        onClick={() => openModalDelete(item?.id)}
                         className="rounded-md ml-2 bg-red-600 px-3 py-1 text-xs font-medium text-white hover:bg-red-700"
                       >
                         Hapus
