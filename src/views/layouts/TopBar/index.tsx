@@ -32,7 +32,7 @@ const TopBarNavigation = () => {
   useEffect(() => {
     const checkAccess = () => {
       if (!profileData) return;
-      if (profileData.role === "Admin" && userPath) {
+      if (profileData.role === "admin" && userPath) {
         router.push("/admin/home");
       }
       if (profileData.role === "user" && adminPath) {
@@ -52,7 +52,7 @@ const TopBarNavigation = () => {
       const currentRole = profileData?.role;
 
       await AuthApi.authLogout();
-      if (currentRole === "Admin") {
+      if (currentRole === "admin") {
         router.push("/auth/admin/login");
       }
       if (currentRole === "user") {

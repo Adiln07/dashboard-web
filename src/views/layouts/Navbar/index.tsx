@@ -12,7 +12,7 @@ const NavigationBar = () => {
       label: "Home",
     },
     {
-      href: "/admin/products",
+      href: "/admin/users",
       label: "users",
     },
   ];
@@ -29,7 +29,6 @@ const NavigationBar = () => {
 
   const adminPath = pathName?.startsWith("/admin");
   const userPath = pathName?.startsWith("/users");
-  // console.log("user: ", userPath);
 
   return (
     <div className=" bg-white text-black w-[20em] shadow-lg min-h-screen rounded-tr-xl">

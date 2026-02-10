@@ -5,8 +5,19 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useUsersProductStore } from "@/store/usersProductStore";
 
+import { usePathname } from "next/navigation";
+import { useAdminStore } from "@/store/adminStore";
+
 const Alert = () => {
-  const popAlert = useUsersProductStore((state) => state.popAlert);
+  const pathName = usePathname();
+  const adminPath = pathName?.startsWith("/admin");
+  const userPath = pathName?.startsWith("/users");
+
+  const popAlert = adminPath
+    ? useAdminStore((state) => state.popAlert)
+    : userPath
+      ? useUsersProductStore((state) => state.popAlert)
+      : "";
   return (
     <div
       className={`${popAlert.isVisible ? "opacity-100" : "hidden"}  fixed  m-auto left-1/2 top-10 z-[2000] w-full -translate-x-1/2 transform px-20 transition-opacity duration-500`}
