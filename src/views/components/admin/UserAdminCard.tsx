@@ -2,7 +2,6 @@ import { useAdminStore } from "@/store/adminStore";
 import React, { useEffect } from "react";
 
 const UserAdminCard = () => {
-  const isAddUserByAdmin = useAdminStore((state) => state.isAddUserByAdmin);
   const isAddUserByAdminOpen = useAdminStore(
     (state) => state.isAddUserByAdminOpen,
   );
@@ -11,12 +10,21 @@ const UserAdminCard = () => {
   const fecthGetAllUsersAdmin = useAdminStore(
     (state) => state.fecthGetAllUsersAdmin,
   );
+  const isDeleteUserByAdminOpen = useAdminStore(
+    (state) => state.isDeleteUserByAdminOpen,
+  );
+  const setUserId = useAdminStore((state) => state.setUserId);
 
   useEffect(() => {
     fecthGetAllUsersAdmin();
   }, []);
 
   const dataUsers = users.filter((user) => user.role === "user");
+
+  const openModalDelete = (id: string) => {
+    setUserId(id);
+    isDeleteUserByAdminOpen();
+  };
 
   return (
     <div>
@@ -43,7 +51,10 @@ const UserAdminCard = () => {
                 <button className="bg-blue-500 text-white px-1  rounded w-full hover:bg-blue-600">
                   Products
                 </button>
-                <button className="bg-red-500 text-white px-1 rounded w-full hover:bg-red-600 ">
+                <button
+                  onClick={() => openModalDelete(user.id)}
+                  className="bg-red-500 text-white px-1 rounded w-full hover:bg-red-600 "
+                >
                   Delete
                 </button>
               </div>

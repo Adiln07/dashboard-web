@@ -1,5 +1,4 @@
 import AxiosConfig from "@/services/AxiosConfig";
-import { register } from "module";
 
 export const adminApi = {
   getAllUsersAdmin: async () => {
@@ -24,6 +23,17 @@ export const adminApi = {
       return response.data;
     } catch (error) {
       throw new Error("Failed Register User by Admin bro");
+    }
+  },
+  deleteUserByAdmin: async (id: string) => {
+    try {
+      const response = await AxiosConfig.delete(`/admin/users/${id}`, {
+        withCredentials: true,
+      });
+
+      return response.data;
+    } catch (error) {
+      throw new Error("Failed Delete User By admin");
     }
   },
 };

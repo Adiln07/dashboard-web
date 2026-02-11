@@ -17,6 +17,8 @@ type AdminStore = {
   error: string | null;
   popAlert: PopAlert;
   isAddUserByAdmin: boolean;
+  userId: string;
+  isDeleteUserByAdmin: boolean;
 
   fecthGetAllUsersAdmin: () => Promise<void>;
   registerUserByAdmin: (body: {
@@ -24,8 +26,14 @@ type AdminStore = {
     email: string;
     password: string;
   }) => Promise<void>;
+
+  deleteUserByAdmin: (id: string) => Promise<void>;
+  setUserId: (id: string) => void;
   isAddUserByAdminOpen: () => void;
   isAddUserByAdminClosed: () => void;
+  isDeleteUserByAdminOpen: () => void;
+  isDeleteUserByAdminClosed: () => void;
+
   popAlertVisibled: () => void;
 };
 
@@ -39,6 +47,8 @@ export const useAdminStore = create<AdminStore>((set) => ({
     message: "",
   },
   isAddUserByAdmin: false,
+  userId: "",
+  isDeleteUserByAdmin: false,
 
   fecthGetAllUsersAdmin: async () => {
     try {
@@ -77,11 +87,43 @@ export const useAdminStore = create<AdminStore>((set) => ({
     }
   },
 
+  deleteUserByAdmin: async (id: string) => {
+    try {
+      await adminApi.deleteUserByAdmin(id);
+      const updated = await adminApi.getAllUsersAdmin();
+      set({ users: updated?.data || [], loading: false });
+      set({
+        popAlert: {
+          isVisible: true,
+          status: true,
+          message: "Successfully DELETED user by admin",
+        },
+      });
+      set({ isDeleteUserByAdmin: false });
+    } catch (error) {
+      set({
+        popAlert: {
+          isVisible: true,
+          status: false,
+          message: "Failed to DELETED user by admin",
+        },
+      });
+    }
+  },
+
+  setUserId: (id: string) => set({ userId: id }),
+
   isAddUserByAdminOpen: () => {
     set({ isAddUserByAdmin: true });
   },
   isAddUserByAdminClosed: () => {
     set({ isAddUserByAdmin: false });
+  },
+  isDeleteUserByAdminOpen: () => {
+    set({ isDeleteUserByAdmin: true });
+  },
+  isDeleteUserByAdminClosed: () => {
+    set({ isDeleteUserByAdmin: false });
   },
   popAlertVisibled: () => {
     set((state) => ({
